@@ -1,0 +1,38 @@
+.track { position: relative; background: linear-gradient(180deg, #eff6ff 0%, #fff 100%); }
+:global(body):has(.track) { overflow-x: clip; }
+/* Pinned at the very top with a fixed height (so scroll-to-step stays stable); the navbar's room is
+   inner padding that collapses while the navbar is hidden on scroll down. */
+.panel { --nav-space: 80px; position: sticky; top: 0; height: 100svh; overflow: clip; }
+:global(html[data-nav-hidden]) .panel { --nav-space: 0px; }
+.content { display: flex; flex-direction: column; height: 100%; padding-top: calc(var(--nav-space) + 16px); padding-bottom: 20px; transition: padding-top 300ms ease; }
+.heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-shrink: 0; }
+.body { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: center; flex: 1; min-height: 0; gap: 24px; }
+.stage { position: relative; width: 100%; height: 100%; min-height: 0; outline: none; }
+.stage:focus-visible { outline: 2px solid #60a5fa; outline-offset: -2px; border-radius: 24px; }
+.caption { position: relative; z-index: 35; padding-right: 8px; }
+.navigation { flex-shrink: 0; position: relative; z-index: 40; }
+@media (max-width: 767px) {
+  /* Bottom padding keeps the step bar clear of the floating call/WhatsApp buttons. */
+  .panel { --nav-space: 72px; }
+  .content { padding-top: calc(var(--nav-space) + 10px); padding-bottom: 72px; }
+  .heading { gap: 8px; }
+  .heading h2 { font-size: 18px; }
+  .body { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(140px, 1fr) auto; gap: 0; }
+  .caption { text-align: center; min-height: 148px; padding: 0 0 8px; }
+  .caption h3 { font-size: 18px; }
+  .caption p { font-size: 12px; }
+}
+@media (max-height: 600px) and (min-width: 768px) {
+  .heading h2 { font-size: 22px; }
+  .content { padding-top: calc(var(--nav-space) + 8px); padding-bottom: 8px; }
+  .caption h3 { font-size: 22px; }
+}
+@media (max-height: 650px) and (max-width: 767px) {
+  .panel { --nav-space: 64px; }
+  .content { padding-bottom: 64px; }
+  .heading h2 { font-size: 15px; margin-top: 4px; }
+  .caption { min-height: 120px; }
+  .caption h3 { margin-top: 4px; font-size: 16px; }
+  .caption p { margin-top: 4px; line-height: 1.35; }
+  .body { grid-template-rows: minmax(90px, 1fr) auto; }
+}

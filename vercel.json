@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "regions": ["bom1"],
+  "redirects": [
+    { "source": "/home", "destination": "/", "permanent": true },
+    { "source": "/index", "destination": "/", "permanent": true },
+    { "source": "/services/web", "destination": "/services/website-development", "permanent": true },
+    { "source": "/services/marketing", "destination": "/services/digital-marketing", "permanent": true },
+    { "source": "/services/software", "destination": "/services/software-development", "permanent": true }
+  ]
+}

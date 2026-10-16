@@ -1,0 +1,40 @@
+.canvas {
+  position: relative;
+  overflow: hidden;
+  border: none;
+  border-radius: 0;
+  background: radial-gradient(ellipse at 50% 45%, #dbeafe99 0%, #eff6ff66 45%, transparent 72%);
+  box-shadow: none;
+}
+.grid {
+  position: absolute;
+  inset: 0;
+  opacity: .3;
+  background-image: linear-gradient(#93c5fd 1px, transparent 1px), linear-gradient(90deg, #93c5fd 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse, black, transparent 75%);
+}
+.diagram { position: relative; width: 100%; max-width: 480px; aspect-ratio: 400 / 360; margin: 0 auto; }
+.connections { position: absolute; inset: 0; width: 100%; height: 100%; }
+.orbit, .innerOrbit { position: absolute; left: 50%; top: 50%; width: 72%; aspect-ratio: 1; border: 1px solid #bfdbfe99; border-radius: 50%; transform: translate(-50%, -50%); }
+.orbit { animation: orbit 24s linear infinite; }
+.orbit span { position: absolute; top: -3px; left: 50%; width: 6px; height: 6px; background: #2563eb; border-radius: 50%; box-shadow: 0 0 12px #60a5fa88; }
+.innerOrbit { width: 56%; border-style: dashed; }
+.flow { animation: flow 8s linear infinite; }
+.hub { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: grid; place-items: center; width: 39%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 30% 20%, #ffffff, #eff6ff); border: 1px solid #bfdbfe; box-shadow: 0 0 0 10px #dbeafe55, 0 12px 36px -16px #2563eb33; text-align: center; }
+.hubContent { animation: reveal .4s ease-out both; }
+.node { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; width: 24%; min-height: 72px; padding: 12px 6px; border: 1px solid #dbeafe; border-radius: 16px; background: #ffffff; color: #475569; font-size: 12px; font-weight: 600; transition: background .3s, border-color .3s, box-shadow .3s; }
+.node:hover, .node[data-active="true"] { background: #eff6ff; border-color: #60a5fa; box-shadow: 0 6px 20px -8px #2563eb33; color: #1d4ed8; }
+.node:focus-visible { outline: 2px solid #2563eb; outline-offset: 4px; }
+.node0 { left: 6%; top: 7%; }
+.node1 { right: 6%; top: 7%; }
+.node2 { left: 6%; bottom: 7%; }
+.node3 { right: 6%; bottom: 7%; }
+.canvas[data-paused="true"] *, .canvas[data-paused="true"] *::before { animation-play-state: paused; }
+@keyframes orbit { to { transform: translate(-50%, -50%) rotate(360deg); } }
+@keyframes flow { to { stroke-dashoffset: -116; } }
+@keyframes reveal { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .canvas *, .canvas *::before { animation: none !important; transition: none !important; }
+}
+
