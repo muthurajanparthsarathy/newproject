@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/section";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
-import { Testimonials } from "@/components/sections/testimonials";
 import { ProcessSection } from "@/components/sections/process";
 import { ContactCTA } from "@/components/sections/contact-cta";
 import { stats } from "@/lib/content";
@@ -207,18 +206,24 @@ export default function AboutPage() {
             {TEAM.map((member) => (
               <StaggerItem key={member.name}>
                 <div className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft transition hover:-translate-y-1 hover:shadow-glow">
-                  <div className="relative aspect-[4/5] overflow-hidden bg-slate-100">
-                    {member.image && (
-                      <>
-                        <Image
-                          src={member.image}
-                          alt={member.name}
-                          fill
-                          sizes="(max-width: 640px) 100vw, 336px"
-                          className="object-cover transition duration-700 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-900/70 to-transparent" />
-                      </>
+                  <div className="relative aspect-square overflow-hidden bg-slate-100">
+                    {member.image ? (
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        sizes="(max-width: 640px) 100vw, 336px"
+                        className="object-cover transition duration-700 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand-50 via-white to-sky-100">
+                        <span className="inline-flex h-24 w-24 items-center justify-center rounded-full bg-gradient-brand font-display text-3xl font-bold text-white shadow-glow">
+                          {member.name
+                            .split(" ")
+                            .map((part) => part[0])
+                            .join("")}
+                        </span>
+                      </div>
                     )}
                   </div>
                   <div className="p-5">
@@ -234,10 +239,10 @@ export default function AboutPage() {
             ))}
           </Stagger>
 
-          <div className="mt-12 grid grid-cols-2 gap-6 rounded-2xl border border-slate-200 bg-white p-8 md:grid-cols-4">
+          <div className="mt-10 grid grid-cols-2 gap-6 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 md:grid-cols-4">
             {stats.map((s) => (
               <div key={s.label} className="text-center">
-                <div className="font-display text-3xl font-bold text-foreground sm:text-4xl">
+                <div className="font-display text-2xl font-bold text-foreground sm:text-3xl">
                   {s.value}
                 </div>
                 <div className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">
@@ -250,7 +255,6 @@ export default function AboutPage() {
       </Section>
 
       <ProcessSection />
-      <Testimonials />
       <ContactCTA />
     </>
   );

@@ -9,7 +9,6 @@ import {
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/reveal";
 import { PageHero } from "@/components/sections/page-hero";
 import { PricingSection } from "@/components/sections/pricing";
-import { ContactCTA } from "@/components/sections/contact-cta";
 import type { Product } from "@/lib/content";
 import { buildWhatsAppLink, cn } from "@/lib/utils";
 
@@ -133,12 +132,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <Stagger className="mt-10 grid gap-5 md:grid-cols-3">
             {demos.map((src, i) => (
               <StaggerItem key={src}>
-                <div
-                  className={cn(
-                    "relative aspect-[4/5] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft",
-                    i === 1 ? "md:-translate-y-6" : ""
-                  )}
-                >
+                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft">
                   <Image
                     src={src}
                     alt={`${product.name} preview ${i + 1}`}
@@ -192,7 +186,7 @@ export function ProductDetail({ product }: { product: Product }) {
       <Section>
         <Container>
           <Reveal>
-            <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-10 sm:p-14">
+            <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 sm:p-10">
               <div
                 className={cn(
                   "absolute -right-24 -top-24 h-72 w-72 rounded-full bg-gradient-to-br opacity-20 blur-3xl",
@@ -200,7 +194,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 )}
                 aria-hidden
               />
-              <div className="relative grid gap-10 lg:grid-cols-12 lg:items-center">
+              <div className="relative grid gap-8 lg:grid-cols-12 lg:items-center">
                 <div className="lg:col-span-7">
                   <div
                     className={cn(
@@ -210,11 +204,11 @@ export function ProductDetail({ product }: { product: Product }) {
                   >
                     <Icon className="h-5 w-5" />
                   </div>
-                  <h2 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl">
+                  <h2 className="mt-4 text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-3xl">
                     Ready to launch{" "}
                     <span className="text-gradient">{product.name}</span>?
                   </h2>
-                  <p className="mt-4 max-w-xl text-base text-muted-foreground sm:text-lg">
+                  <p className="mt-3 max-w-xl text-base text-muted-foreground">
                     Book a 20-minute demo and we&rsquo;ll show you exactly how it
                     fits your workflow.
                   </p>
@@ -241,8 +235,6 @@ export function ProductDetail({ product }: { product: Product }) {
           </Reveal>
         </Container>
       </Section>
-
-      <ContactCTA />
     </>
   );
 }

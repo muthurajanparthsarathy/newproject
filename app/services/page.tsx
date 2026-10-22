@@ -9,6 +9,7 @@ import {
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 import { ContactCTA } from "@/components/sections/contact-cta";
+import { ServiceColumns } from "@/components/layout/service-columns";
 import { services } from "@/lib/content";
 import { cn, buildWhatsAppLink } from "@/lib/utils";
 
@@ -79,30 +80,30 @@ export default function ServicesPage() {
                 <StaggerItem key={service.slug}>
                   <Link
                     href={service.href}
-                    className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-500/40 hover:shadow-[0_24px_60px_-20px_rgb(37_99_235_/_0.4)]"
+                    className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-soft transition-all sm:p-7 duration-300 hover:-translate-y-1.5 hover:border-brand-500/40 hover:shadow-[0_24px_60px_-20px_rgb(37_99_235_/_0.4)]"
                   >
                     <div className="flex items-start justify-between">
                       <div
                         className={cn(
-                          "inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br text-white shadow-soft transition group-hover:scale-110",
+                          "inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-soft transition group-hover:scale-110",
                           service.accent
                         )}
                       >
-                        <Icon className="h-6 w-6" />
+                        <Icon className="h-5 w-5" />
                       </div>
                       <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-foreground transition group-hover:border-brand-500 group-hover:bg-brand-600 group-hover:text-white">
                         <ArrowRight className="h-4 w-4" />
                       </span>
                     </div>
 
-                    <h2 className="mt-6 text-2xl font-bold text-foreground">
+                    <h2 className="mt-5 text-xl font-bold text-foreground">
                       {service.name}
                     </h2>
                     <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
                       {service.shortDescription}
                     </p>
 
-                    <ul className="mt-6 grid grid-cols-2 gap-x-3 gap-y-2 text-xs text-muted-foreground">
+                    <ul className="mt-5 grid grid-cols-2 gap-x-3 gap-y-2 text-xs text-muted-foreground">
                       {service.features.slice(0, 4).map((f) => (
                         <li key={f.title} className="flex items-center gap-1.5">
                           <span className="h-1 w-1 rounded-full bg-brand-500" />
@@ -111,7 +112,7 @@ export default function ServicesPage() {
                       ))}
                     </ul>
 
-                    <div className="mt-auto pt-8">
+                    <div className="mt-auto pt-6">
                       <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-600">
                         Learn more
                         <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
@@ -130,9 +131,22 @@ export default function ServicesPage() {
             })}
           </Stagger>
 
+          <div
+            id="all-services"
+            className="mt-12 scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-6 shadow-soft sm:p-8"
+          >
+            <h2 className="text-xl font-bold text-foreground sm:text-2xl">
+              Every service we offer
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Pick a specific service to see what&rsquo;s included.
+            </p>
+            <ServiceColumns className="mt-6 sm:grid-cols-2 lg:grid-cols-4" />
+          </div>
+
           <Reveal>
             <div className="mx-auto mt-12 max-w-3xl text-center">
-              <h2 className="text-2xl font-bold text-foreground sm:text-3xl">
+              <h2 className="text-xl font-bold text-foreground sm:text-2xl">
                 Need a combined package?
               </h2>
               <p className="mt-3 text-muted-foreground">

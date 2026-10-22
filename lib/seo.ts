@@ -337,3 +337,46 @@ export function getServiceJsonLd(s: ServiceJsonLdInput) {
 
   return faq ? [service, faq] : [service];
 }
+
+/* ════════════════════════════════════════════════════════════════
+ * BLOG POST schema
+ * ════════════════════════════════════════════════════════════════ */
+export type BlogPostingJsonLdInput = {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+  updated?: string;
+  author: string;
+  category: string;
+  tags: string[];
+  cover?: string;
+};
+
+export function getBlogPostingJsonLd(p: BlogPostingJsonLdInput) {
+  const url = `${baseUrl}/blog/${p.slug}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `${url}#article`,
+    headline: p.title,
+    description: p.description,
+    url,
+    mainEntityOfPage: url,
+    datePublished: p.date,
+    dateModified: p.updated || p.date,
+    inLanguage: "en-IN",
+    articleSection: p.category,
+    ...(p.tags.length ? { keywords: p.tags.join(", ") } : {}),
+    image: p.cover
+      ? p.cover.startsWith("http")
+        ? p.cover
+        : `${baseUrl}${p.cover}`
+      : `${baseUrl}/logo.png`,
+    author:
+      p.author === SITE.name
+        ? { "@id": `${baseUrl}#organization` }
+        : { "@type": "Person", name: p.author },
+    publisher: { "@id": `${baseUrl}#organization` },
+  };
+}

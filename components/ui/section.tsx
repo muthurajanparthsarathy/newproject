@@ -17,7 +17,7 @@ export function Section({
     <Tag
       className={cn(
         "relative w-full",
-        !bleed && "py-12 md:py-20",
+        !bleed && "py-12 md:py-16",
         className
       )}
       {...props}
@@ -71,17 +71,17 @@ export function SectionHeading({
   return (
     <div
       className={cn(
-        "mx-auto max-w-3xl space-y-5",
+        "mx-auto max-w-3xl space-y-4",
         align === "center" ? "text-center" : "text-left mx-0",
         className
       )}
     >
       {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
-      <h2 className="text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl md:text-5xl">
+      <h2 className="text-[1.75rem] font-bold leading-tight tracking-tight text-foreground sm:text-3xl lg:text-4xl">
         {title}
       </h2>
       {description ? (
-        <p className="text-base text-muted-foreground sm:text-lg">{description}</p>
+        <p className="text-base leading-relaxed text-muted-foreground sm:text-[1.0625rem]">{description}</p>
       ) : null}
     </div>
   );

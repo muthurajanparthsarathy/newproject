@@ -24,10 +24,10 @@ export function PortfolioGrid({ limit }: { limit?: number }) {
             <Globe aria-hidden="true" className="ml-2 h-3.5 w-3.5 shrink-0 text-slate-400" />
             <span className="truncate text-xs text-muted-foreground">{new URL(item.url).hostname}</span>
           </div>
-          <div className={`flex min-h-64 flex-col items-center justify-center px-6 py-10 text-center ${index === 0 ? "bg-gradient-to-br from-sky-50 via-white to-blue-100" : "bg-gradient-to-br from-orange-50 via-white to-amber-100"}`}>
-            <ShoppingBag aria-hidden="true" className={`mb-5 h-9 w-9 ${index === 0 ? "text-brand-600" : "text-amber-700"}`} strokeWidth={1.5} />
+          <div className={`flex min-h-48 flex-col items-center justify-center px-6 py-8 text-center ${index === 0 ? "bg-gradient-to-br from-sky-50 via-white to-blue-100" : "bg-gradient-to-br from-orange-50 via-white to-amber-100"}`}>
+            <ShoppingBag aria-hidden="true" className={`mb-4 h-8 w-8 ${index === 0 ? "text-brand-600" : "text-amber-700"}`} strokeWidth={1.5} />
             <span className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Website project</span>
-            <h3 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">{item.title}</h3>
+            <h3 className="mt-2 text-2xl font-bold tracking-tight">{item.title}</h3>
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">{item.description}</p>
           </div>
           <div className="flex items-center justify-between gap-4 border-t border-slate-100 px-6 py-5">

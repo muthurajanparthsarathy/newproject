@@ -156,7 +156,25 @@ public/
 ## Editing content
 
 Almost all copy lives in **`lib/content.ts`** — services, products, pricing tiers,
-FAQs, testimonials, portfolio. Edit there and the site updates everywhere.
+FAQs, portfolio. Edit there and the site updates everywhere.
+
+## Writing a blog post
+
+Blog posts are Markdown files in **`content/blog/`** — the file name is the URL
+(`content/blog/my-post.md` → `/blog/my-post`).
+
+1. Copy `content/blog/_template.md`, rename it, and fill in `title`,
+   `description` and `date` at the top. The template explains every field.
+2. Write the post below the second `---`. `##` headings become the
+   "On this page" list.
+3. Put images in `public/images/blog/<post-name>/`.
+4. Commit and push (or use **Add file** on github.com) — Vercel deploys it.
+
+**Scheduling:** a post goes live at 00:00 IST on its `date`. Blog pages
+re-check hourly, so you can push a week of future-dated posts at once and
+each appears on its day without another deploy. `draft: true` keeps a post
+hidden. In `npm run dev`, drafts and scheduled posts are shown with a badge
+so you can preview them.
 
 Hero rotating headlines live in **`lib/hero-slides.ts`**.
 

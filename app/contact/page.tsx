@@ -96,7 +96,7 @@ export default function ContactPage() {
                 <span className="inline-flex items-center rounded-full border border-brand-200 bg-brand-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand-700">
                   Reach out
                 </span>
-                <h2 className="mt-4 font-display text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl">
+                <h2 className="mt-4 font-display text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-3xl">
                   Direct lines to our team
                 </h2>
                 <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">

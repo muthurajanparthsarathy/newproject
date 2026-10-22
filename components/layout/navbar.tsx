@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -8,14 +8,17 @@ import { ChevronDown, Menu, X, ArrowRight } from "lucide-react";
 import { cn, buildWhatsAppLink } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Logo } from "./logo";
-import { services } from "@/lib/content";
+import { ServiceColumns } from "./service-columns";
+import { SERVICE_CATEGORIES } from "@/lib/service-catalog";
 
 const NAV_LINKS = [
+  // Ordered like a visitor's journey: who we are → what we offer → proof → learn → act
   { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
   { href: "/services", label: "Services", mega: true },
   { href: "/products", label: "Products" },
   { href: "/portfolio", label: "Portfolio" },
-  { href: "/about", label: "About" },
+  { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -24,7 +27,24 @@ export function Navbar() {
   const [hidden, setHidden] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const pathname = usePathname();
+
+  // Hover intent: a short delay lets the pointer cross the gap between
+  // "Services" and the panel without the menu snapping shut.
+  const openMega = () => {
+    clearTimeout(closeTimer.current);
+    setMegaOpen(true);
+  };
+  const closeMegaSoon = () => {
+    clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setMegaOpen(false), 160);
+  };
+  const closeMega = () => {
+    clearTimeout(closeTimer.current);
+    setMegaOpen(false);
+  };
 
   useEffect(() => {
     let lastY = window.scrollY;
@@ -46,6 +66,15 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!megaOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMegaOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [megaOpen]);
+
   // Lets sections that pin below the navbar (e.g. the process panel) use its space while it's away.
   useEffect(() => {
     const root = document.documentElement;
@@ -63,7 +92,10 @@ export function Navbar() {
     };
   }, [mobileOpen]);
 
-  const closeMobile = () => setMobileOpen(false);
+  const closeMobile = () => {
+    setMobileOpen(false);
+    setMobileServicesOpen(false);
+  };
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -84,20 +116,23 @@ export function Navbar() {
 
           <nav
             className="hidden items-center gap-1 lg:flex"
-            onMouseLeave={() => setMegaOpen(false)}
+            onMouseLeave={closeMegaSoon}
           >
             {NAV_LINKS.map((link) =>
               link.mega ? (
                 <div
                   key={link.href}
                   className="relative"
-                  onMouseEnter={() => setMegaOpen(true)}
+                  onMouseEnter={openMega}
                 >
                   <Link
                     href={link.href}
+                    onClick={closeMega}
+                    aria-haspopup="true"
+                    aria-expanded={megaOpen}
                     className={cn(
                       "inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-colors",
-                      isActive(link.href)
+                      isActive(link.href) || megaOpen
                         ? "text-brand-600"
                         : "text-foreground hover:text-brand-600"
                     )}
@@ -115,6 +150,7 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
+                  onMouseEnter={closeMega}
                   className={cn(
                     "rounded-full px-4 py-2 text-sm font-medium transition-colors",
                     isActive(link.href)
@@ -164,55 +200,39 @@ export function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.18, ease: "easeOut" }}
-              className="absolute left-0 right-0 top-full hidden lg:block"
-              onMouseEnter={() => setMegaOpen(true)}
-              onMouseLeave={() => setMegaOpen(false)}
+              className="absolute left-0 right-0 top-full hidden pt-2 lg:block"
+              onMouseEnter={openMega}
+              onMouseLeave={closeMegaSoon}
             >
               <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
-                <div className="mt-3 overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_24px_60px_-20px_rgb(15_23_42_/_0.25)]">
-                  <div className="grid grid-cols-2 gap-4">
-                    {services.map((service) => {
-                      const Icon = service.icon;
-                      return (
-                        <Link
-                          key={service.slug}
-                          href={service.href}
-                          className="group flex items-start gap-4 rounded-xl p-4 transition hover:bg-slate-50"
-                        >
-                          <div
-                            className={cn(
-                              "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-soft",
-                              service.accent
-                            )}
-                          >
-                            <Icon className="h-5 w-5" />
-                          </div>
-                          <div className="min-w-0">
-                            <div className="flex items-center gap-2 text-sm font-semibold text-foreground group-hover:text-brand-600">
-                              {service.name}
-                              <ArrowRight className="h-3.5 w-3.5 opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100" />
-                            </div>
-                            <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
-                              {service.shortDescription}
-                            </p>
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                  <div className="mt-5 flex items-center justify-between rounded-xl bg-gradient-brand-soft p-4">
-                    <div>
-                      <div className="text-sm font-semibold text-foreground">
+                <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_24px_60px_-20px_rgb(15_23_42_/_0.25)]">
+                  <ServiceColumns
+                    activeHref={pathname}
+                    onNavigate={closeMega}
+                    className="grid-cols-4 px-8 pb-6 pt-7"
+                  />
+                  <div className="flex items-center justify-between gap-6 border-t border-slate-100 bg-slate-50/70 px-8 py-4">
+                    <p className="text-sm">
+                      <span className="font-semibold text-foreground">
                         Not sure which service you need?
-                      </div>
-                      <div className="text-xs text-muted-foreground">
+                      </span>{" "}
+                      <span className="text-muted-foreground">
                         Book a free 20-minute strategy call.
-                      </div>
+                      </span>
+                    </p>
+                    <div className="flex shrink-0 items-center gap-5">
+                      <Link
+                        href="/services"
+                        onClick={closeMega}
+                        className="text-sm font-semibold text-brand-600 hover:text-brand-700"
+                      >
+                        All services
+                      </Link>
+                      <Button href="/contact" size="sm" onClick={closeMega}>
+                        Talk to us
+                        <ArrowRight className="h-4 w-4" />
+                      </Button>
                     </div>
-                    <Button href="/contact" size="sm">
-                      Talk to us
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
                   </div>
                 </div>
               </div>
@@ -233,7 +253,7 @@ export function Navbar() {
             <button
               aria-label="Close menu overlay"
               className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
-              onClick={() => setMobileOpen(false)}
+              onClick={closeMobile}
             />
             <motion.aside
               initial={{ x: "100%" }}
@@ -246,7 +266,7 @@ export function Navbar() {
                 <Logo />
                 <button
                   type="button"
-                  onClick={() => setMobileOpen(false)}
+                  onClick={closeMobile}
                   aria-label="Close menu"
                   className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200"
                 >
@@ -255,56 +275,85 @@ export function Navbar() {
               </div>
 
               <nav className="flex flex-col gap-1">
-                {NAV_LINKS.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={closeMobile}
-                    className={cn(
-                      "rounded-xl px-3 py-3 text-base font-medium transition",
-                      isActive(link.href)
-                        ? "bg-brand-50 text-brand-700"
-                        : "text-foreground hover:bg-slate-50"
-                    )}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                {NAV_LINKS.map((link) =>
+                  link.mega ? (
+                    <div key={link.href}>
+                      <button
+                        type="button"
+                        onClick={() => setMobileServicesOpen((o) => !o)}
+                        aria-expanded={mobileServicesOpen}
+                        className={cn(
+                          "flex w-full items-center justify-between rounded-xl px-3 py-3 text-base font-medium transition",
+                          isActive(link.href)
+                            ? "bg-brand-50 text-brand-700"
+                            : "text-foreground hover:bg-slate-50"
+                        )}
+                      >
+                        {link.label}
+                        <ChevronDown
+                          className={cn(
+                            "h-4 w-4 transition-transform",
+                            mobileServicesOpen && "rotate-180"
+                          )}
+                        />
+                      </button>
+                      {mobileServicesOpen ? (
+                        <div className="mb-2 ml-3 mt-1 space-y-4 border-l border-slate-200 py-2 pl-4">
+                          <Link
+                            href="/services"
+                            onClick={closeMobile}
+                            className="block text-sm font-semibold text-brand-600"
+                          >
+                            All services
+                          </Link>
+                          {SERVICE_CATEGORIES.map((category) => (
+                            <div key={category.id}>
+                              <div className="text-[11px] font-semibold uppercase tracking-widest text-slate-400">
+                                {category.title}
+                              </div>
+                              <ul className="mt-1.5 space-y-0.5">
+                                {category.items.map((item) => (
+                                  <li key={item.href}>
+                                    <Link
+                                      href={item.href}
+                                      onClick={closeMobile}
+                                      className={cn(
+                                        "block py-1.5 text-sm",
+                                        pathname === item.href
+                                          ? "font-medium text-brand-700"
+                                          : "text-foreground"
+                                      )}
+                                    >
+                                      {item.label}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
+                    </div>
+                  ) : (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={closeMobile}
+                      className={cn(
+                        "rounded-xl px-3 py-3 text-base font-medium transition",
+                        isActive(link.href)
+                          ? "bg-brand-50 text-brand-700"
+                          : "text-foreground hover:bg-slate-50"
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  )
+                )}
               </nav>
 
-              <div className="mt-6 border-t border-slate-100 pt-6">
-                <div className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-400">
-                  Services
-                </div>
-                <div className="flex flex-col gap-2">
-                  {services.map((service) => {
-                    const Icon = service.icon;
-                    return (
-                      <Link
-                        key={service.slug}
-                        href={service.href}
-                        onClick={closeMobile}
-                        className="flex items-center gap-3 rounded-xl p-2 transition hover:bg-slate-50"
-                      >
-                        <span
-                          className={cn(
-                            "flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br text-white",
-                            service.accent
-                          )}
-                        >
-                          <Icon className="h-4 w-4" />
-                        </span>
-                        <span className="text-sm font-medium text-foreground">
-                          {service.name}
-                        </span>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-
               <div className="mt-6 flex flex-col gap-3 border-t border-slate-100 pt-6">
-                <Button href="/contact" size="lg">
+                <Button href="/contact" size="lg" onClick={closeMobile}>
                   Get Started
                   <ArrowRight className="h-4 w-4" />
                 </Button>
@@ -323,7 +372,6 @@ export function Navbar() {
           </motion.div>
         ) : null}
       </AnimatePresence>
-
     </>
   );
 }

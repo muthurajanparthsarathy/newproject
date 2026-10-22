@@ -71,20 +71,20 @@ export function PageHero({
               </Reveal>
             ) : null}
             <Reveal delay={0.05}>
-              <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] tracking-tight text-foreground sm:text-5xl md:text-6xl">
+              <h1 className="mt-4 font-display text-[2rem] font-bold leading-[1.15] tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]">
                 {title}
               </h1>
             </Reveal>
             {description ? (
               <Reveal delay={0.1}>
-                <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+                <p className={cn("mt-4 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg", !image && "mx-auto")}>
                   {description}
                 </p>
               </Reveal>
             ) : null}
             {actions ? (
               <Reveal delay={0.15}>
-                <div className="mt-8 flex flex-wrap items-center gap-3">{actions}</div>
+                <div className={cn("mt-7 flex flex-wrap items-center gap-3", !image && "justify-center")}>{actions}</div>
               </Reveal>
             ) : null}
           </div>

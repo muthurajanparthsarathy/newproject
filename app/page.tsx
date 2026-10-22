@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { Hero } from "@/components/sections/hero";
+import { StudioHero } from "@/components/studio3d/StudioHero";
 import { TrustSection } from "@/components/sections/trust";
-import { OneTeamIsland } from "@/components/sections/one-team-island";
+// Hidden for now, kept for future use — uncomment this and <OneTeamIsland /> below to bring it back
+// import { OneTeamIsland } from "@/components/sections/one-team-island";
 import { ServicesPreview } from "@/components/sections/services-preview";
 import { ProductsSection } from "@/components/sections/products-section";
 import { PortfolioSection } from "@/components/sections/portfolio-section";
-import { Testimonials } from "@/components/sections/testimonials";
-import { VideoSection } from "@/components/sections/video-section";
 import { ContactCTA } from "@/components/sections/contact-cta";
 
 export const metadata: Metadata = {
@@ -28,14 +27,13 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <Hero />
+      <StudioHero />
       <TrustSection />
-      <OneTeamIsland />
+      {/* "One team · Shoot to SEO" section — hidden for now, kept for future use */}
+      {/* <OneTeamIsland /> */}
       <ServicesPreview />
       <ProductsSection />
       <PortfolioSection />
-      <Testimonials />
-      <VideoSection />
       <ContactCTA />
     </>
   );

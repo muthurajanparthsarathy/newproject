@@ -61,7 +61,7 @@ export function PricingSection({
             <StaggerItem key={tier.name}>
               <div
                 className={cn(
-                  "relative flex h-full flex-col rounded-3xl border p-8 transition",
+                  "relative flex h-full flex-col rounded-3xl border p-6 transition sm:p-7",
                   tier.highlighted
                     ? "border-transparent bg-gradient-brand text-white shadow-[0_30px_80px_-30px_rgb(37_99_235_/_0.55)]"
                     : "border-slate-200 bg-white text-foreground hover:-translate-y-1 hover:shadow-soft"
@@ -86,7 +86,7 @@ export function PricingSection({
                 <div className="mt-3 flex items-baseline gap-1">
                   <span
                     className={cn(
-                      "font-display text-4xl font-bold",
+                      "font-display text-3xl font-bold lg:text-4xl",
                       tier.highlighted ? "text-white" : "text-foreground"
                     )}
                   >
@@ -146,7 +146,7 @@ export function PricingSection({
                   target="_blank"
                   rel="noopener noreferrer"
                   className={cn(
-                    "mt-8 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition",
+                    "mt-7 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition",
                     tier.highlighted
                       ? "bg-white text-brand-700 hover:-translate-y-0.5 hover:bg-slate-50"
                       : "bg-foreground text-white hover:-translate-y-0.5 hover:bg-brand-600"

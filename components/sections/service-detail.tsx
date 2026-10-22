@@ -16,7 +16,6 @@ import { PageHero } from "@/components/sections/page-hero";
 import { PricingSection } from "@/components/sections/pricing";
 import { TabbedPricing } from "@/components/sections/tabbed-pricing";
 import { FAQSection } from "@/components/sections/faq";
-import { ContactCTA } from "@/components/sections/contact-cta";
 import { ContactForm } from "@/components/sections/contact-form";
 import type { Service } from "@/lib/content";
 import { buildWhatsAppLink, cn } from "@/lib/utils";
@@ -66,16 +65,16 @@ export function ServiceDetail({ service }: { service: Service }) {
 
       <Section>
         <Container>
-          <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
             <Reveal direction="left">
-              <div className="rounded-2xl border border-rose-100 bg-rose-50/40 p-8">
+              <div className="h-full rounded-2xl border border-rose-100 bg-rose-50/40 p-6 sm:p-7">
                 <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-rose-100 text-rose-600">
                   <AlertCircle className="h-5 w-5" />
                 </div>
                 <div className="mt-5 text-xs font-semibold uppercase tracking-widest text-rose-600">
                   The problem
                 </div>
-                <h2 className="mt-2 text-2xl font-bold text-foreground sm:text-3xl">
+                <h2 className="mt-2 text-xl font-bold text-foreground sm:text-2xl">
                   Where most brands get stuck
                 </h2>
                 <p className="mt-4 text-base leading-relaxed text-muted-foreground">
@@ -85,7 +84,7 @@ export function ServiceDetail({ service }: { service: Service }) {
             </Reveal>
 
             <Reveal direction="right">
-              <div className="rounded-2xl border border-brand-100 bg-brand-50/40 p-8">
+              <div className="h-full rounded-2xl border border-brand-100 bg-brand-50/40 p-6 sm:p-7">
                 <div
                   className={cn(
                     "inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br text-white",
@@ -97,7 +96,7 @@ export function ServiceDetail({ service }: { service: Service }) {
                 <div className="mt-5 text-xs font-semibold uppercase tracking-widest text-brand-600">
                   Our solution
                 </div>
-                <h2 className="mt-2 text-2xl font-bold text-foreground sm:text-3xl">
+                <h2 className="mt-2 text-xl font-bold text-foreground sm:text-2xl">
                   How Prova Media solves it
                 </h2>
                 <p className="mt-4 text-base leading-relaxed text-muted-foreground">
@@ -156,7 +155,7 @@ export function ServiceDetail({ service }: { service: Service }) {
               <div className="text-xs font-semibold uppercase tracking-widest text-brand-600">
                 Why brands choose us
               </div>
-              <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl md:text-5xl">
+              <h2 className="mt-3 text-[1.75rem] font-bold leading-tight tracking-tight text-foreground sm:text-3xl lg:text-4xl">
                 Outcomes you can{" "}
                 <span className="text-gradient">measure</span>.
               </h2>
@@ -237,8 +236,6 @@ export function ServiceDetail({ service }: { service: Service }) {
           </div>
         </Container>
       </Section>
-
-      <ContactCTA />
     </>
   );
 }

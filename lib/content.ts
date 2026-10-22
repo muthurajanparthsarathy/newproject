@@ -805,63 +805,6 @@ export const products: Product[] = [
   },
 ];
 
-export type Testimonial = {
-  name: string;
-  role: string;
-  company: string;
-  avatar: string;
-  rating: number;
-  quote: string;
-};
-
-export const testimonials: Testimonial[] = [
-  {
-    name: "Aarav Mehta",
-    role: "Founder",
-    company: "Lumora Skincare",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
-    rating: 5,
-    quote:
-      "Prova Media rebuilt our website and ad funnel — our conversion rate doubled within two months. Easily the best agency partnership we've had.",
-  },
-  {
-    name: "Priya Nair",
-    role: "Marketing Head",
-    company: "Northwind Hotels",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80",
-    rating: 5,
-    quote:
-      "The brand films Prova Media produced for our launch were cinema-quality. They understood our story better than we did.",
-  },
-  {
-    name: "Rohan Iyer",
-    role: "CEO",
-    company: "Stackmint Tech",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
-    rating: 5,
-    quote:
-      "We replaced three different agencies with Prova Media. Faster delivery, higher quality and clear communication every step of the way.",
-  },
-  {
-    name: "Sneha Kapoor",
-    role: "Operations Lead",
-    company: "Brewline Cafés",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=400&q=80",
-    rating: 5,
-    quote:
-      "Their billing software is a dream. Five outlets, one dashboard, zero spreadsheet chaos. Our team trained on it in a single afternoon.",
-  },
-  {
-    name: "Karan Shah",
-    role: "Co-Founder",
-    company: "Nova Athletics",
-    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80",
-    rating: 5,
-    quote:
-      "The team at Prova Media is fast, sharp and ridiculously good at design. Our DTC store hit ₹1Cr in revenue in the first 90 days post-launch.",
-  },
-];
-
 export type PortfolioItem = {
   title: string;
   category: "Web";

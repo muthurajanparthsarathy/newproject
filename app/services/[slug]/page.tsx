@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ServiceDetail } from "@/components/sections/service-detail";
+import { SubServiceDetail } from "@/components/sections/sub-service-detail";
 import { services } from "@/lib/content";
+import { SUB_SERVICES, getSubService, type SubService } from "@/lib/service-catalog";
 import { SITE } from "@/lib/utils";
 import { getServiceJsonLd, getBreadcrumbJsonLd } from "@/lib/seo";
 
+/** Main services and the focused sub-service pages share /services/<slug>. */
 export function generateStaticParams() {
-  return services.map((s) => ({ slug: s.slug }));
+  return [...services, ...SUB_SERVICES].map((s) => ({ slug: s.slug }));
 }
 
 type Props = { params: Promise<{ slug: string }> };
@@ -112,10 +115,31 @@ const SEO_BY_SLUG: Record<
   },
 };
 
+function subServiceMetadata(sub: SubService): Metadata {
+  const title = `${sub.name} in Coimbatore`;
+  const description = `${sub.summary} ${sub.intro}`;
+  const href = `/services/${sub.slug}`;
+  return {
+    title,
+    description,
+    keywords: [
+      sub.name,
+      `${sub.menuLabel ?? sub.name} Coimbatore`,
+      `${sub.menuLabel ?? sub.name} company in Coimbatore`,
+      "Prova Media",
+    ],
+    alternates: { canonical: href },
+    openGraph: { title, description, type: "website", url: href, siteName: SITE.name, locale: "en_IN" },
+  };
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const service = services.find((s) => s.slug === slug);
-  if (!service) return { title: "Service not found" };
+  if (!service) {
+    const sub = getSubService(slug);
+    return sub ? subServiceMetadata(sub) : { title: "Service not found" };
+  }
 
   const seo = SEO_BY_SLUG[slug];
   const title =
@@ -163,7 +187,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ServiceSlugPage({ params }: Props) {
   const { slug } = await params;
   const service = services.find((s) => s.slug === slug);
-  if (!service) notFound();
+  if (!service) {
+    const sub = getSubService(slug);
+    if (!sub) notFound();
+    return <SubServicePage sub={sub} />;
+  }
 
   const seo = SEO_BY_SLUG[slug];
   const description =
@@ -198,6 +226,39 @@ export default async function ServiceSlugPage({ params }: Props) {
         />
       ))}
       <ServiceDetail service={service} />
+    </>
+  );
+}
+
+function SubServicePage({ sub }: { sub: SubService }) {
+  const href = `/services/${sub.slug}`;
+  const parent = services.find((s) => s.slug === sub.parent);
+  const jsonLd = [
+    ...getServiceJsonLd({
+      name: sub.name,
+      href,
+      description: `${sub.summary} ${sub.intro}`,
+      image: `${SITE.url}/logo.png`,
+      faqs: [],
+    }),
+    getBreadcrumbJsonLd([
+      { name: "Home", href: "/" },
+      { name: "Services", href: "/services" },
+      ...(parent ? [{ name: parent.name, href: parent.href }] : []),
+      { name: sub.name, href },
+    ]),
+  ];
+
+  return (
+    <>
+      {jsonLd.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
+      <SubServiceDetail sub={sub} />
     </>
   );
 }
